@@ -327,9 +327,26 @@
       document.getElementById('portalView').style.display = 'none';
       document.getElementById('certificateFrame').style.display = 'flex';
 
+      let actualType = rawType;
+      let actualId = rawId;
+
+      // Smart swap in case type & id were entered swapped (e.g. ?t=FX3201&i=STOCK MARKET ASSOCIATE)
+      const roleKeywords = ['ASSOCIATE', 'DEVELOPER', 'DEVELOPMENT', 'ENGINEER', 'MARKET', 'INTERN', 'DESIGN', 'ANALYST', 'SCIENCE', 'SPECIALIST', 'EXECUTIVE', 'RESEARCH', 'MANAGER', 'CONSULTANT'];
+      const idUpper = (actualId || '').toUpperCase();
+      const typeUpper = (actualType || '').toUpperCase();
+
+      const idLooksLikeRole = roleKeywords.some(k => idUpper.includes(k));
+      const typeLooksLikeId = (typeUpper.startsWith('JC-') || typeUpper.startsWith('FX') || /^[A-Z0-9_\-]{3,18}$/.test(typeUpper)) && !TRACK_SHORTCUTS[typeUpper];
+
+      if (idLooksLikeRole && typeLooksLikeId) {
+        const temp = actualType;
+        actualType = actualId;
+        actualId = temp;
+      }
+
       const cleanName = formatName(rawName) || 'Student Candidate';
-      const cleanType = resolveTrack(rawType);
-      const cleanId = rawId || 'JC-VERIFIED';
+      const cleanType = resolveTrack(actualType);
+      const cleanId = actualId || 'JC-VERIFIED';
 
       // Populate Certificate Elements
       document.getElementById('certRecipientName').textContent = cleanName;

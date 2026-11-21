@@ -1,0 +1,17 @@
+# Netlify Redirects & Rewrites
+
+# Assets under /internship-certificate/ subpath
+/internship-certificate/assets/*    /assets/:splat    200
+/internship-certificate/logo.png    /logo.png         200
+/internship-certificate/signature.png /signature.png  200
+
+# Subpath rewrites to /index.html (preserves query params like ?n=...&t=...&i=...)
+/internship-certificate/*           /index.html       200
+/internship-certificate             /index.html       200
+
+# Verification subpaths
+/verify/*                           /index.html       200
+/verify                             /index.html       200
+
+# Single Page App fallback for any other routes
+/*                                  /index.html       200

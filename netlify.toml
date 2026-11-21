@@ -1,0 +1,58 @@
+[build]
+  publish = "."
+
+# Serve assets when requested via /internship-certificate/ subpath
+[[redirects]]
+  from = "/internship-certificate/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/internship-certificate/logo.png"
+  to = "/logo.png"
+  status = 200
+
+[[redirects]]
+  from = "/internship-certificate/signature.png"
+  to = "/signature.png"
+  status = 200
+
+# Rewrite /internship-certificate/ requests to /index.html (preserves query params)
+[[redirects]]
+  from = "/internship-certificate/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/internship-certificate"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/verify/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/verify"
+  to = "/index.html"
+  status = 200
+
+# Fallback rewrite for all other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security & Cache Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

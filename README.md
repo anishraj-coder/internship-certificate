@@ -134,15 +134,29 @@ file:///C:/Code/internship-certificate/index.html?n=Shubham+dey&t=FS&i=JC-202508
 
 ---
 
-## 🚀 How to Deploy to GitHub Pages
+## 🚀 How to Deploy to GitHub Pages & Netlify
 
+### A. Deploy to GitHub Pages
 1. **Commit and Push your changes**:
    ```powershell
    git add .
-   git commit -m "Add portal view and short URL parameter support"
+   git commit -m "Add Netlify configuration and verification updates"
    git push origin main
    ```
 2. Your GitHub Pages site will update automatically in ~30 seconds!
+
+### B. Deploy to Netlify
+- Netlify automatically detects the included `netlify.toml`, `_redirects`, and `_headers` files.
+- **Both URL styles are supported on Netlify**:
+  - Direct root URL:
+    ```text
+    https://internship-certificate-jyesta.netlify.app/?n=Aditya%20Chowdhury&t=STOCK%20MARKET%20ASSOCIATE&i=FX3201
+    ```
+  - Subpath URL (GitHub Pages compatibility):
+    ```text
+    https://internship-certificate-jyesta.netlify.app/internship-certificate/?n=Aditya%20Chowdhury&t=STOCK%20MARKET%20ASSOCIATE&i=FX3201
+    ```
+- All rewrites, asset paths, and query parameters are seamlessly preserved.
 
 ---
 
