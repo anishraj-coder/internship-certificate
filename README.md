@@ -7,55 +7,93 @@ Hosted on **GitHub Pages** with zero hosting costs, high availability, and compl
 ---
 
 ## 📌 Table of Contents
-1. [URL Generation Format](#-url-generation-format)
-2. [Bulk URL Generation (Excel / Google Sheets)](#-bulk-url-generation-excel--google-sheets)
-3. [Generating QR Codes with Online Tools](#-generating-qr-codes-with-online-tools)
-4. [How to Run & Test Locally](#-how-to-run--test-locally)
-5. [How to Deploy to GitHub Pages](#-how-to-deploy-to-github-pages)
-6. [Private Admin Generator Tool](#-private-admin-generator-tool)
-7. [Repository File Structure](#-repository-file-structure)
+1. [URL Format & Short Keys](#-url-format--short-keys)
+2. [Supported Domain Shortcuts](#-supported-domain-shortcuts)
+3. [Portal Screen (When No Parameter is Passed)](#-portal-screen-when-no-parameter-is-passed)
+4. [Bulk URL Generation (Excel / Google Sheets)](#-bulk-url-generation-excel--google-sheets)
+5. [Generating QR Codes with Online Tools](#-generating-qr-codes-with-online-tools)
+6. [How to Run & Test Locally](#-how-to-run--test-locally)
+7. [How to Deploy to GitHub Pages](#-how-to-deploy-to-github-pages)
+8. [Private Admin Generator Tool](#-private-admin-generator-tool)
+9. [Repository File Structure](#-repository-file-structure)
 
 ---
 
-## 🔗 URL Generation Format
+## 🔗 URL Format & Short Keys
 
-When you hand over a certificate, the QR code on the certificate points to your GitHub Pages URL:
+When you hand over a certificate, the QR code on the certificate points to your GitHub Pages URL using short parameters:
 
 ```text
-https://<username>.github.io/<repo-name>/?name=ACTUAL_NAME&type=FULL_STACK&id=THE_ID
+https://<username>.github.io/<repo-name>/?n=ACTUAL_NAME&t=TRACK&i=THE_ID
+```
+
+### Real Example:
+```text
+https://<username>.github.io/internship-certificate/?n=Shubham+dey&t=FS&i=JC-20250816-UPONXWML
 ```
 
 ### Parameter Reference
 
 | Parameter | Required | Description | Example Values |
 | :--- | :---: | :--- | :--- |
-| `name` | **Yes** | Full candidate name | `Shubham dey`, `Priya Sharma` |
-| `type` | **Yes** | Internship domain/track | `FULLSTACK WEB DEVELOPMENT`, `DATA SCIENCE` |
-| `id` | **Yes** | Unique Certificate ID | `JC-20250816-UPONXWML` |
-| `from` | Optional | Start Date (defaults to `01-07-2026`) | `01-07-2026` |
-| `to` | Optional | End Date (defaults to `31-07-2026`) | `31-07-2026` |
-| `issued` | Optional | Issue Date (defaults to `31-07-2026`) | `31-07-2026` |
+| **`n`** (or `name`) | **Yes** | Full candidate name | `Shubham dey`, `Priya Sharma` |
+| **`t`** (or `type`) | **Yes** | Domain shortcut or full title | `FS`, `DS`, `AI`, `FULLSTACK WEB DEVELOPMENT` |
+| **`i`** (or `id`) | **Yes** | Unique Certificate ID | `JC-20250816-UPONXWML` |
 
-### URL Encoding Rules
-- Replace spaces with `+` or `%20` (e.g. `Shubham+dey` or `Shubham%20dey`).
-- Replace `&` with `%26` if your domain name contains an ampersand (e.g. `AI+%26+ML`).
-- Any underscores `_` in `name` or `type` are automatically converted to spaces on display (e.g. `FULL_STACK` displays as `FULL STACK`).
+> [!NOTE]
+> **Static Dates**: The certificate dates are permanently static:
+> - **From**: `01-07-2026`
+> - **To**: `31-07-2026`
+> - **Issued on**: `31-07-2026`
+> 
+> You do **not** need to include date parameters in the URL.
+
+---
+
+## ⚡ Supported Domain Shortcuts (`t=...`)
+
+You can use short abbreviations in `?t=...` and the certificate will automatically expand and display the full official title:
+
+| Shortcut (`t=`) | Displays On Certificate As |
+| :--- | :--- |
+| `FS` or `FULLSTACK` or `FULL_STACK` | **FULLSTACK WEB DEVELOPMENT** |
+| `FE` or `FRONTEND` | **FRONTEND WEB DEVELOPMENT** |
+| `BE` or `BACKEND` | **BACKEND WEB DEVELOPMENT** |
+| `DS` or `DATA_SCIENCE` | **DATA SCIENCE & ANALYTICS** |
+| `AI` or `AIML` or `AI_ML` | **ARTIFICIAL INTELLIGENCE & MACHINE LEARNING** |
+| `PY` or `PYTHON` | **PYTHON DEVELOPMENT** |
+| `CS` or `CYBER` | **CYBER SECURITY** |
+| `CLOUD` or `DEVOPS` | **CLOUD COMPUTING & DEVOPS** |
+| `APP` or `ANDROID` | **ANDROID APP DEVELOPMENT** |
+| `UI` or `UX` or `UIUX` | **UI/UX DESIGN** |
+| *Any custom string* | *Displays your custom string in uppercase* |
+
+---
+
+## 🛡️ Portal Screen (When No Parameter is Passed)
+
+When someone opens the root link without query parameters:
+```text
+https://<username>.github.io/internship-certificate/
+```
+- It does **not** display any default candidate's certificate.
+- It displays the official **Jyesta Certificate Verification Portal** informing the visitor that no certificate was specified, instructing them to scan the official QR code, or allowing them to manually enter candidate name, track, and certificate ID.
 
 ---
 
 ## 📊 Bulk URL Generation (Excel / Google Sheets)
 
-If you have a batch of interns, you can generate all verification links at once in a spreadsheet:
+If you have a batch of interns, you can generate all short verification links at once in a spreadsheet:
 
 1. Setup columns in Excel or Google Sheets:
    - **Column A**: Candidate Name (e.g. `Shubham dey`)
-   - **Column B**: Track / Domain (e.g. `FULLSTACK WEB DEVELOPMENT`)
+   - **Column B**: Track Shortcut or Title (e.g. `FS`)
    - **Column C**: Certificate ID (e.g. `JC-20250816-UPONXWML`)
    - **Column D**: Verification Link (Formula)
 
 2. Paste this formula into cell **D2**:
    ```excel
-   ="https://<username>.github.io/<repo-name>/?name=" & ENCODEURL(A2) & "&type=" & ENCODEURL(B2) & "&id=" & ENCODEURL(C2)
+   ="https://<username>.github.io/<repo-name>/?n=" & ENCODEURL(A2) & "&t=" & ENCODEURL(B2) & "&i=" & ENCODEURL(C2)
    ```
    *(Replace `<username>` and `<repo-name>` with your actual GitHub username and repository name).*
 
@@ -73,92 +111,43 @@ Once you have your generated link, paste it into any QR code generator:
    - Canva (Built-in QR Code App)
 2. **Settings**:
    - Choose **URL / Website**.
-   - Paste the link generated above.
+   - Paste the short link generated above.
    - Download the QR code as **PNG** or **SVG** and place it in the "Scan to verify" section of the certificate.
 
 ---
 
 ## 💻 How to Run & Test Locally
 
-You can test the certificate on your computer before deploying:
-
-### Option 1: Direct File Open (Easiest)
-Simply double-click `index.html` in your file explorer, or open it in your browser with test query parameters:
+### 1. Test Verification Portal (No Params)
+Open `index.html` directly in your browser:
 ```text
-file:///C:/Code/internship-certificate/index.html?name=Shubham+dey&type=FULLSTACK+WEB+DEVELOPMENT&id=JC-20250816-UPONXWML
+file:///C:/Code/internship-certificate/index.html
 ```
+*(Verify that the Verification Portal screen displays with zero dummy data).*
 
-### Option 2: Using Node (`npx serve`)
-In your terminal:
-```powershell
-npx serve .
-```
-Then open:
+### 2. Test Verified Certificate (With Short Params)
+Open `index.html` with query parameters:
 ```text
-http://localhost:3000/?name=Shubham+dey&type=FULLSTACK+WEB+DEVELOPMENT&id=JC-20250816-UPONXWML
+file:///C:/Code/internship-certificate/index.html?n=Shubham+dey&t=FS&i=JC-20250816-UPONXWML
 ```
-
-### Option 3: Using VS Code Live Server
-Right-click `index.html` and click **"Open with Live Server"**.
+*(Verify that Shubham dey's certificate renders with full track name, static dates, and QR code).*
 
 ---
 
 ## 🚀 How to Deploy to GitHub Pages
 
-Deploying takes about 1 minute:
-
-### Step 1: Initialize Git and Commit
-In the project root (`c:\Code\internship-certificate`):
-```powershell
-git init
-git add .
-git commit -m "Initial commit: Jyesta certificate verification system"
-```
-*(Notice: `.gitignore` automatically prevents `private_tools/` from being committed).*
-
-### Step 2: Push to GitHub
-1. Create a new repository on GitHub (e.g. `internship-certificate`). Keep it **Public**.
-2. Run:
-```powershell
-git remote add origin https://github.com/<YOUR-USERNAME>/internship-certificate.git
-git branch -M main
-git push -u origin main
-```
-
-### Step 3: Enable GitHub Pages
-1. Go to your repository on GitHub.
-2. Click **Settings** (top tab) → **Pages** (left sidebar).
-3. Under **Branch**, select `main` and root `/(root)`, then click **Save**.
-4. Within 1 minute, GitHub will give you your live URL:
-   ```text
-   https://<YOUR-USERNAME>.github.io/internship-certificate/
+1. **Commit and Push your changes**:
+   ```powershell
+   git add .
+   git commit -m "Add portal view and short URL parameter support"
+   git push origin main
    ```
+2. Your GitHub Pages site will update automatically in ~30 seconds!
 
 ---
 
 ## 🔒 Private Admin Generator Tool
 
-To ensure that recipients or employers **cannot** access the generator, `generator.html` has been isolated into `private_tools/` and added to `.gitignore`.
-
-- It is strictly on your local PC at: [`private_tools/generator.html`](file:///c:/Code/internship-certificate/private_tools/generator.html).
-- It never gets pushed to GitHub.
-- The public `index.html` certificate page has zero links or references to it.
-
-You can still open [`private_tools/generator.html`](file:///c:/Code/internship-certificate/private_tools/generator.html) on your computer anytime to auto-generate Certificate IDs and preview links locally.
-
----
-
-## 📁 Repository File Structure
-
-```
-c:\Code\internship-certificate\
-├── .gitignore                    # Excludes private_tools from GitHub
-├── index.html                    # Public Certificate Verification Page (GitHub Pages)
-├── assets\
-│   ├── style.css                 # Certificate typography & A4 landscape print CSS
-│   ├── qrcode.js                 # Standalone offline QR code renderer
-│   └── jyesta-elements.js        # Vector SVGs (Logo, ISO seal, MSME badge, Signature)
-├── private_tools\                # Local-only administrative tools (gitignored)
-│   └── generator.html            # Private link & QR code generator
-└── README.md                     # Documentation & usage guide
-```
+You can also use your local admin tool to auto-generate Certificate IDs and preview short links:
+- Located at: [`private_tools/generator.html`](file:///c:/Code/internship-certificate/private_tools/generator.html).
+- Kept strictly local via `.gitignore` (never pushed to GitHub).

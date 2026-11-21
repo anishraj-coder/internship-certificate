@@ -12,17 +12,17 @@
   <!-- Top Verification Notification Banner (Hidden when Printing) -->
   <header class="verify-top-bar no-print">
     <div class="verify-badge-container">
-      <span class="verified-pill">
-        <svg viewBox="0 0 20 20">
+      <span class="verified-pill" id="statusPill">
+        <svg viewBox="0 0 20 20" id="statusIcon">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
         </svg>
-        Officially Verified Certificate
+        <span id="statusText">Officially Verified Certificate</span>
       </span>
       <span class="cert-id-tag" id="topCertId">ID: Loading...</span>
     </div>
 
     <div class="verify-actions">
-      <button class="btn btn-primary" onclick="window.print()">
+      <button class="btn btn-primary" id="printBtn" onclick="window.print()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-12 0v4h12v-4M6 14h12"/>
         </svg>
@@ -33,7 +33,57 @@
 
   <!-- Certificate Display Viewport -->
   <main class="certificate-viewport">
-    <div class="certificate-frame" id="certificateFrame">
+
+    <!-- 1. Official Verification Portal View (Shown when no parameters provided) -->
+    <div class="portal-card" id="portalView" style="display: none;">
+      <div class="portal-brand">
+        <div class="portal-brand-logo" id="portalLogoContainer"></div>
+        <div class="portal-brand-title">JYESTA</div>
+        <div class="portal-brand-subtitle">CORPORATE ENTITY</div>
+      </div>
+
+      <h1 class="portal-title">Certificate Verification Portal</h1>
+      <p class="portal-desc">
+        Welcome to the official credential authentication portal of Jyesta Corporate Entity.
+      </p>
+
+      <div class="portal-notice-box">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        <div>
+          <div class="portal-notice-title">No Certificate Details Specified</div>
+          <div class="portal-notice-text">
+            To view and verify an authentic internship certificate, please scan the QR code printed on the official document using your phone camera.
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual Lookup Form -->
+      <div class="portal-manual-box">
+        <div class="portal-manual-heading">Or Verify Manually by Details:</div>
+        <form onsubmit="handleManualVerify(event)">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 13px;" for="manualName">Candidate Name *</label>
+            <input type="text" id="manualName" class="form-input" placeholder="e.g. Shubham dey" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 13px;" for="manualType">Domain / Track *</label>
+            <input type="text" id="manualType" class="form-input" placeholder="e.g. FULLSTACK WEB DEVELOPMENT or FS" value="FULLSTACK WEB DEVELOPMENT" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" style="font-size: 13px;" for="manualId">Certificate ID *</label>
+            <input type="text" id="manualId" class="form-input" placeholder="e.g. JC-20250816-UPONXWML" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 11px;">
+            Verify Certificate
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. Certificate Frame (Shown when valid parameters are provided) -->
+    <div class="certificate-frame" id="certificateFrame" style="display: none;">
 
       <!-- Corner Modern Blue Geometric Artwork -->
       <div class="corner-accent-tl" id="cornerTL"></div>
@@ -71,12 +121,12 @@
 
           <div class="recipient-line">
             <span class="salutation">Mr./Ms.</span>
-            <span class="recipient-name" id="certRecipientName">Shubham dey</span>
+            <span class="recipient-name" id="certRecipientName">Candidate Name</span>
           </div>
 
           <p class="cert-completion-text">Has successfully completed internship in</p>
 
-          <h3 class="internship-type" id="certInternshipType">FULLSTACK WEB DEVELOPMENT</h3>
+          <h3 class="internship-type" id="certInternshipType">DOMAIN NAME</h3>
 
           <div class="cert-dates-line">
             <span>From</span>
@@ -114,7 +164,7 @@
               <div class="badge-msme" id="msmeBadgeContainer" title="MSME - Government of India Registered"></div>
             </div>
 
-            <div class="cert-id-number" id="certIdNumber">JC-20250816-UPONXWML</div>
+            <div class="cert-id-number" id="certIdNumber">ID</div>
             <div class="cert-tagline">&ldquo;Empowering Futures, One Skill at a Time&rdquo;</div>
             <a href="https://www.jyesta.com" target="_blank" rel="noopener" class="cert-website">www.jyesta.com</a>
           </div>
@@ -137,6 +187,47 @@
   <script src="assets/jyesta-elements.js"></script>
 
   <script>
+    // Common Track Shortcuts Dictionary
+    const TRACK_SHORTCUTS = {
+      'FS': 'FULLSTACK WEB DEVELOPMENT',
+      'FULLSTACK': 'FULLSTACK WEB DEVELOPMENT',
+      'FULL_STACK': 'FULLSTACK WEB DEVELOPMENT',
+      'FE': 'FRONTEND WEB DEVELOPMENT',
+      'FRONTEND': 'FRONTEND WEB DEVELOPMENT',
+      'FRONT_END': 'FRONTEND WEB DEVELOPMENT',
+      'BE': 'BACKEND WEB DEVELOPMENT',
+      'BACKEND': 'BACKEND WEB DEVELOPMENT',
+      'BACK_END': 'BACKEND WEB DEVELOPMENT',
+      'DS': 'DATA SCIENCE & ANALYTICS',
+      'DATA_SCIENCE': 'DATA SCIENCE & ANALYTICS',
+      'DATASCIENCE': 'DATA SCIENCE & ANALYTICS',
+      'AI': 'ARTIFICIAL INTELLIGENCE & MACHINE LEARNING',
+      'AIML': 'ARTIFICIAL INTELLIGENCE & MACHINE LEARNING',
+      'AI_ML': 'ARTIFICIAL INTELLIGENCE & MACHINE LEARNING',
+      'ML': 'MACHINE LEARNING',
+      'PY': 'PYTHON DEVELOPMENT',
+      'PYTHON': 'PYTHON DEVELOPMENT',
+      'CS': 'CYBER SECURITY',
+      'CYBER': 'CYBER SECURITY',
+      'CYBER_SECURITY': 'CYBER SECURITY',
+      'CYBERSECURITY': 'CYBER SECURITY',
+      'CLOUD': 'CLOUD COMPUTING & DEVOPS',
+      'DEVOPS': 'CLOUD COMPUTING & DEVOPS',
+      'APP': 'ANDROID APP DEVELOPMENT',
+      'ANDROID': 'ANDROID APP DEVELOPMENT',
+      'UI': 'UI/UX DESIGN',
+      'UX': 'UI/UX DESIGN',
+      'UIUX': 'UI/UX DESIGN',
+      'UI_UX': 'UI/UX DESIGN'
+    };
+
+    // Static Dates
+    const STATIC_DATES = {
+      from: '01-07-2026',
+      to: '31-07-2026',
+      issued: '31-07-2026'
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
       // 1. Inject SVG Graphic Assets
       document.getElementById('cornerTL').innerHTML = JyestaSVGs.cornerTL;
@@ -148,18 +239,18 @@
       document.getElementById('msmeBadgeContainer').innerHTML = JyestaSVGs.msmeBadge;
       document.getElementById('signatureContainer').innerHTML = JyestaSVGs.signature;
       document.getElementById('jyestaLogoContainer').innerHTML = JyestaSVGs.logo;
+      document.getElementById('portalLogoContainer').innerHTML = JyestaSVGs.logo;
 
-      // Check if user has added custom logo or signature image overrides
+      // Handle Logo Override if logo.png or assets/logo.png exists
       function applyLogo(src) {
         const testImg = new Image();
         testImg.onload = function() {
-          if (testImg.naturalWidth / testImg.naturalHeight > 1.4) {
-            document.querySelector('.jyesta-brand').innerHTML =
-              `<img src="${src}" alt="Jyesta Corporate Entity" style="height:52px; max-width:240px; object-fit:contain;">`;
-          } else {
-            document.getElementById('jyestaLogoContainer').innerHTML =
-              `<img src="${src}" alt="Jyesta Logo" style="width:100%; height:100%; object-fit:contain;">`;
-          }
+          const html = (testImg.naturalWidth / testImg.naturalHeight > 1.4)
+            ? `<img src="${src}" alt="Jyesta Corporate Entity" style="height:52px; max-width:240px; object-fit:contain;">`
+            : `<img src="${src}" alt="Jyesta Logo" style="width:100%; height:100%; object-fit:contain;">`;
+          
+          document.querySelector('.jyesta-brand').innerHTML = html;
+          document.getElementById('portalLogoContainer').innerHTML = `<img src="${src}" alt="Jyesta Logo" style="width:100%; height:100%; object-fit:contain;">`;
         };
         testImg.src = src;
       }
@@ -173,66 +264,126 @@
           });
         }
       });
-      checkImageOverride('assets/signature.png', function(found, src) {
+
+      function applySignature(src) {
+        document.getElementById('signatureContainer').innerHTML =
+          `<img src="${src}" alt="Director Signature" style="max-width:180px; max-height:46px; object-fit:contain;">`;
+      }
+
+      checkImageOverride('signature.png', function(found, src) {
         if (found) {
-          document.getElementById('signatureContainer').innerHTML =
-            `<img src="${src}" alt="Director Signature" style="max-width:180px; max-height:46px; object-fit:contain;">`;
+          applySignature(src);
+        } else {
+          checkImageOverride('assets/signature.png', function(found2, src2) {
+            if (found2) applySignature(src2);
+          });
         }
       });
 
-      // 2. Parse URL Query Parameters
+      // 2. Parse URL Query Parameters (Supports Short and Long Forms)
       const urlParams = new URLSearchParams(window.location.search);
 
-      // Support ?name=..., ?type=..., ?id=..., with smart formatting & defaults
-      const rawName = urlParams.get('name') || 'Shubham dey';
-      const rawType = urlParams.get('type') || 'FULLSTACK WEB DEVELOPMENT';
-      const rawId = urlParams.get('id') || 'JC-20250816-UPONXWML';
+      // Short: n, t, i | Long: name, type/d, id
+      const paramName = (urlParams.get('n') || urlParams.get('name') || '').trim();
+      const paramType = (urlParams.get('t') || urlParams.get('type') || urlParams.get('d') || '').trim();
+      const paramId = (urlParams.get('i') || urlParams.get('id') || '').trim();
 
-      // Optional dates (supports minimal URL with clean fixed defaults as requested)
-      const rawFrom = urlParams.get('from') || '01-07-2026';
-      const rawTo = urlParams.get('to') || '31-07-2026';
-      const rawIssued = urlParams.get('issued') || '31-07-2026';
+      // Check if certificate params are provided
+      const hasCertificate = Boolean(paramName || paramId);
 
-      // Clean & format text
-      const cleanName = formatName(rawName);
-      const cleanType = formatType(rawType);
-      const cleanId = rawId.trim();
+      if (!hasCertificate) {
+        // Show Portal Mode
+        showPortalView();
+        return;
+      }
+
+      // Show Verified Certificate Mode
+      showCertificateView(paramName, paramType, paramId);
+    });
+
+    /**
+     * Renders Portal View when no params are given
+     */
+    function showPortalView() {
+      document.getElementById('portalView').style.display = 'block';
+      document.getElementById('certificateFrame').style.display = 'none';
+
+      // Update Top Bar
+      const pill = document.getElementById('statusPill');
+      pill.style.background = '#f1f5f9';
+      pill.style.color = '#334155';
+      pill.style.borderColor = '#cbd5e1';
+      document.getElementById('statusIcon').style.display = 'none';
+      document.getElementById('statusText').textContent = 'Verification Portal';
+      document.getElementById('topCertId').style.display = 'none';
+      document.getElementById('printBtn').style.display = 'none';
+      document.title = 'Certificate Verification Portal | Jyesta Corporate Entity';
+    }
+
+    /**
+     * Renders Certificate View when params are provided
+     */
+    function showCertificateView(rawName, rawType, rawId) {
+      document.getElementById('portalView').style.display = 'none';
+      document.getElementById('certificateFrame').style.display = 'flex';
+
+      const cleanName = formatName(rawName) || 'Student Candidate';
+      const cleanType = resolveTrack(rawType);
+      const cleanId = rawId || 'JC-VERIFIED';
 
       // Populate Certificate Elements
       document.getElementById('certRecipientName').textContent = cleanName;
       document.getElementById('certInternshipType').textContent = cleanType;
       document.getElementById('certIdNumber').textContent = cleanId;
       document.getElementById('topCertId').textContent = `ID: ${cleanId}`;
-      document.getElementById('certStartDate').textContent = rawFrom;
-      document.getElementById('certEndDate').textContent = rawTo;
-      document.getElementById('certIssueDate').textContent = rawIssued;
-      document.title = `${cleanName} - Internship Certificate (${cleanId}) | Jyesta`;
+      document.getElementById('topCertId').style.display = 'inline-block';
+      document.getElementById('printBtn').style.display = 'inline-flex';
 
-      // 3. Generate the Dynamic QR Code for Verification
-      // The QR code embeds the exact full verification URL so scanning it reopens this certificate!
-      const currentFullUrl = window.location.href;
-      renderQRCode('certQRCode', currentFullUrl, 160);
-    });
+      // Static Dates
+      document.getElementById('certStartDate').textContent = STATIC_DATES.from;
+      document.getElementById('certEndDate').textContent = STATIC_DATES.to;
+      document.getElementById('certIssueDate').textContent = STATIC_DATES.issued;
+
+      document.title = `${cleanName} - Verified Internship Certificate (${cleanId}) | Jyesta`;
+
+      // Generate dynamic QR Code for the current full URL
+      renderQRCode('certQRCode', window.location.href, 160);
+    }
 
     /**
-     * Capitalizes words nicely while preserving special casing
+     * Handles manual verification form submit on portal screen
      */
+    function handleManualVerify(e) {
+      e.preventDefault();
+      const n = document.getElementById('manualName').value.trim();
+      const t = document.getElementById('manualType').value.trim();
+      const i = document.getElementById('manualId').value.trim();
+
+      const params = new URLSearchParams();
+      if (n) params.set('n', n);
+      if (t) params.set('t', t);
+      if (i) params.set('i', i);
+
+      window.location.search = params.toString();
+    }
+
+    /**
+     * Resolves track shortcuts (e.g. FS -> FULLSTACK WEB DEVELOPMENT)
+     */
+    function resolveTrack(str) {
+      if (!str) return 'FULLSTACK WEB DEVELOPMENT';
+      const upper = str.toUpperCase().trim();
+      if (TRACK_SHORTCUTS[upper]) {
+        return TRACK_SHORTCUTS[upper];
+      }
+      return str.replace(/_/g, ' ').toUpperCase().trim();
+    }
+
     function formatName(str) {
       if (!str) return '';
       return str.replace(/_/g, ' ').trim();
     }
 
-    /**
-     * Formats internship type (converts underscores to spaces, uppercase)
-     */
-    function formatType(str) {
-      if (!str) return 'FULLSTACK WEB DEVELOPMENT';
-      return str.replace(/_/g, ' ').toUpperCase().trim();
-    }
-
-    /**
-     * Renders a crisp QR Code in the given container
-     */
     function renderQRCode(containerId, text, size) {
       const container = document.getElementById(containerId);
       if (!container || typeof QRCode === 'undefined') return;
@@ -248,9 +399,6 @@
       });
     }
 
-    /**
-     * Checks if a local image file exists (e.g. assets/logo.png or assets/signature.png)
-     */
     function checkImageOverride(path, callback) {
       const img = new Image();
       img.onload = function() { callback(true, path); };

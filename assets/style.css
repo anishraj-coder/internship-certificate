@@ -146,9 +146,10 @@ body {
 .certificate-viewport {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
+  align-items: flex-start;
+  padding: 24px 20px 48px 20px;
   overflow-x: auto;
+  min-height: calc(100vh - 65px);
 }
 
 /* Landscape A4 ratio approx 297mm x 210mm (1.414:1) */
@@ -165,6 +166,112 @@ body {
   flex-direction: column;
   justify-content: space-between;
   padding: 38px 50px 30px 50px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Official Verification Portal Card (Shown when no parameters provided)
+   ========================================================================== */
+.portal-card {
+  max-width: 680px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  border: 1px solid #e2e8f0;
+  padding: 36px 32px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.portal-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.portal-brand-logo {
+  width: 60px;
+  height: 60px;
+}
+
+.portal-brand-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-blue);
+  letter-spacing: 2px;
+}
+
+.portal-brand-subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: 2.5px;
+  margin-top: -6px;
+}
+
+.portal-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.portal-desc {
+  font-size: 14.5px;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 24px auto;
+}
+
+.portal-notice-box {
+  background: #f0f9ff;
+  border: 1.5px solid #bae6fd;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  margin-bottom: 28px;
+}
+
+.portal-notice-box svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  stroke: #0284c7;
+  margin-top: 2px;
+}
+
+.portal-notice-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 3px;
+}
+
+.portal-notice-text {
+  font-size: 13px;
+  color: #0c4a6e;
+  line-height: 1.45;
+}
+
+.portal-manual-box {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 24px;
+  text-align: left;
+}
+
+.portal-manual-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 14px;
+  text-align: center;
 }
 
 /* ==========================================================================
