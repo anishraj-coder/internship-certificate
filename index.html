@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Certificate Verification | Jyesta Corporate Entity</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 4 L88 24 L88 68 L50 96 L12 68 L12 24 Z' fill='%230284c7'/></svg>">
+</head>
+<body>
+
+  <!-- Top Verification Notification Banner (Hidden when Printing) -->
+  <header class="verify-top-bar no-print">
+    <div class="verify-badge-container">
+      <span class="verified-pill">
+        <svg viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Officially Verified Certificate
+      </span>
+      <span class="cert-id-tag" id="topCertId">ID: Loading...</span>
+    </div>
+
+    <div class="verify-actions">
+      <button class="btn btn-primary" onclick="window.print()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-12 0v4h12v-4M6 14h12"/>
+        </svg>
+        Print / Save PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- Certificate Display Viewport -->
+  <main class="certificate-viewport">
+    <div class="certificate-frame" id="certificateFrame">
+
+      <!-- Corner Modern Blue Geometric Artwork -->
+      <div class="corner-accent-tl" id="cornerTL"></div>
+      <div class="corner-accent-tr" id="cornerTR"></div>
+      <div class="corner-accent-bl" id="cornerBL"></div>
+
+      <!-- Watermark Background -->
+      <div class="cert-watermark" id="certWatermark"></div>
+
+      <!-- Main Certificate Content Container -->
+      <div class="cert-content">
+
+        <!-- Top Header: Logo + Title + Ribbon -->
+        <div class="cert-header">
+          <!-- Jyesta Brand Block (Left) -->
+          <div class="jyesta-brand">
+            <div class="jyesta-logo-box" id="jyestaLogoContainer"></div>
+            <div class="jyesta-brand-text">
+              <span class="jyesta-title">JYESTA</span>
+              <span class="jyesta-subtitle">CORPORATE ENTITY</span>
+            </div>
+          </div>
+
+          <!-- Certificate Title Group (Center) -->
+          <div class="cert-title-group">
+            <h1 class="cert-heading-main">INTERNSHIP</h1>
+            <h2 class="cert-heading-sub">CERTIFICATION</h2>
+            <div class="golden-ribbon" id="goldenRibbonContainer"></div>
+          </div>
+        </div>
+
+        <!-- Body Section: Recipient & Completion Details -->
+        <div class="cert-body">
+          <p class="cert-lead-in">This is to certify that</p>
+
+          <div class="recipient-line">
+            <span class="salutation">Mr./Ms.</span>
+            <span class="recipient-name" id="certRecipientName">Shubham dey</span>
+          </div>
+
+          <p class="cert-completion-text">Has successfully completed internship in</p>
+
+          <h3 class="internship-type" id="certInternshipType">FULLSTACK WEB DEVELOPMENT</h3>
+
+          <div class="cert-dates-line">
+            <span>From</span>
+            <span class="date-value" id="certStartDate">01-07-2026</span>
+            <span>To</span>
+            <span class="date-value" id="certEndDate">31-07-2026</span>
+          </div>
+
+          <p class="commendation-text">
+            The trainee displayed commendable commitment, perseverance, and<br>
+            professionalism during the course of the internship.
+          </p>
+        </div>
+
+        <!-- Footer Section: Issued Date, QR Scan to Verify, Badges, Signature -->
+        <div class="cert-footer">
+          <!-- Left: Issued Date -->
+          <div class="footer-left">
+            <span>Issued on: </span>
+            <span class="issued-date-val" id="certIssueDate">31-07-2026</span>
+          </div>
+
+          <!-- Center: Scan to verify, ISO seal, QR Code, MSME, ID, Tagline, Website -->
+          <div class="footer-center">
+            <span class="scan-verify-label">Scan to verify</span>
+
+            <div class="verification-cluster">
+              <!-- ISO 9001:2015 Seal -->
+              <div class="badge-iso" id="isoBadgeContainer" title="ISO 9001:2015 Certified Company"></div>
+
+              <!-- Dynamic QR Code Container -->
+              <div class="qr-code-box" id="certQRCode" title="Scan to verify certificate authenticity"></div>
+
+              <!-- MSME Govt of India Emblem -->
+              <div class="badge-msme" id="msmeBadgeContainer" title="MSME - Government of India Registered"></div>
+            </div>
+
+            <div class="cert-id-number" id="certIdNumber">JC-20250816-UPONXWML</div>
+            <div class="cert-tagline">&ldquo;Empowering Futures, One Skill at a Time&rdquo;</div>
+            <a href="https://www.jyesta.com" target="_blank" rel="noopener" class="cert-website">www.jyesta.com</a>
+          </div>
+
+          <!-- Right: Signature & Program Director Title -->
+          <div class="footer-right">
+            <div class="signature-img-container" id="signatureContainer"></div>
+            <div class="signature-line"></div>
+            <div class="signer-name">Mourya N Manohar</div>
+            <div class="signer-title">Program Director</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Core Scripts -->
+  <script src="assets/qrcode.js"></script>
+  <script src="assets/jyesta-elements.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Inject SVG Graphic Assets
+      document.getElementById('cornerTL').innerHTML = JyestaSVGs.cornerTL;
+      document.getElementById('cornerTR').innerHTML = JyestaSVGs.cornerTR;
+      document.getElementById('cornerBL').innerHTML = JyestaSVGs.cornerBL;
+      document.getElementById('certWatermark').innerHTML = JyestaSVGs.watermark;
+      document.getElementById('goldenRibbonContainer').innerHTML = JyestaSVGs.goldenRibbon;
+      document.getElementById('isoBadgeContainer').innerHTML = JyestaSVGs.isoBadge;
+      document.getElementById('msmeBadgeContainer').innerHTML = JyestaSVGs.msmeBadge;
+      document.getElementById('signatureContainer').innerHTML = JyestaSVGs.signature;
+      document.getElementById('jyestaLogoContainer').innerHTML = JyestaSVGs.logo;
+
+      // Check if user has added custom logo or signature image overrides
+      function applyLogo(src) {
+        const testImg = new Image();
+        testImg.onload = function() {
+          if (testImg.naturalWidth / testImg.naturalHeight > 1.4) {
+            document.querySelector('.jyesta-brand').innerHTML =
+              `<img src="${src}" alt="Jyesta Corporate Entity" style="height:52px; max-width:240px; object-fit:contain;">`;
+          } else {
+            document.getElementById('jyestaLogoContainer').innerHTML =
+              `<img src="${src}" alt="Jyesta Logo" style="width:100%; height:100%; object-fit:contain;">`;
+          }
+        };
+        testImg.src = src;
+      }
+
+      checkImageOverride('logo.png', function(found, src) {
+        if (found) {
+          applyLogo(src);
+        } else {
+          checkImageOverride('assets/logo.png', function(found2, src2) {
+            if (found2) applyLogo(src2);
+          });
+        }
+      });
+      checkImageOverride('assets/signature.png', function(found, src) {
+        if (found) {
+          document.getElementById('signatureContainer').innerHTML =
+            `<img src="${src}" alt="Director Signature" style="max-width:180px; max-height:46px; object-fit:contain;">`;
+        }
+      });
+
+      // 2. Parse URL Query Parameters
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Support ?name=..., ?type=..., ?id=..., with smart formatting & defaults
+      const rawName = urlParams.get('name') || 'Shubham dey';
+      const rawType = urlParams.get('type') || 'FULLSTACK WEB DEVELOPMENT';
+      const rawId = urlParams.get('id') || 'JC-20250816-UPONXWML';
+
+      // Optional dates (supports minimal URL with clean fixed defaults as requested)
+      const rawFrom = urlParams.get('from') || '01-07-2026';
+      const rawTo = urlParams.get('to') || '31-07-2026';
+      const rawIssued = urlParams.get('issued') || '31-07-2026';
+
+      // Clean & format text
+      const cleanName = formatName(rawName);
+      const cleanType = formatType(rawType);
+      const cleanId = rawId.trim();
+
+      // Populate Certificate Elements
+      document.getElementById('certRecipientName').textContent = cleanName;
+      document.getElementById('certInternshipType').textContent = cleanType;
+      document.getElementById('certIdNumber').textContent = cleanId;
+      document.getElementById('topCertId').textContent = `ID: ${cleanId}`;
+      document.getElementById('certStartDate').textContent = rawFrom;
+      document.getElementById('certEndDate').textContent = rawTo;
+      document.getElementById('certIssueDate').textContent = rawIssued;
+      document.title = `${cleanName} - Internship Certificate (${cleanId}) | Jyesta`;
+
+      // 3. Generate the Dynamic QR Code for Verification
+      // The QR code embeds the exact full verification URL so scanning it reopens this certificate!
+      const currentFullUrl = window.location.href;
+      renderQRCode('certQRCode', currentFullUrl, 160);
+    });
+
+    /**
+     * Capitalizes words nicely while preserving special casing
+     */
+    function formatName(str) {
+      if (!str) return '';
+      return str.replace(/_/g, ' ').trim();
+    }
+
+    /**
+     * Formats internship type (converts underscores to spaces, uppercase)
+     */
+    function formatType(str) {
+      if (!str) return 'FULLSTACK WEB DEVELOPMENT';
+      return str.replace(/_/g, ' ').toUpperCase().trim();
+    }
+
+    /**
+     * Renders a crisp QR Code in the given container
+     */
+    function renderQRCode(containerId, text, size) {
+      const container = document.getElementById(containerId);
+      if (!container || typeof QRCode === 'undefined') return;
+
+      container.innerHTML = '';
+      new QRCode(container, {
+        text: text,
+        width: size,
+        height: size,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    /**
+     * Checks if a local image file exists (e.g. assets/logo.png or assets/signature.png)
+     */
+    function checkImageOverride(path, callback) {
+      const img = new Image();
+      img.onload = function() { callback(true, path); };
+      img.onerror = function() { callback(false, null); };
+      img.src = path;
+    }
+  </script>
+</body>
+</html>

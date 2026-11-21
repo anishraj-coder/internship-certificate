@@ -1,0 +1,10 @@
+# Private local tools (never committed or published to GitHub Pages)
+private_tools/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+.vscode/
+.idea/
